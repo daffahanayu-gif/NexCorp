@@ -1,0 +1,15 @@
+name: holding_corp_hub
+description: Holding Corp Hub - Portal Eksekutif CEO (Dev 3)
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0   # dipakai nanti saat API Dev 2 sudah siap
+
+flutter:
+  uses-material-design: true
