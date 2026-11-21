@@ -1,18 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const { Pool } = require("pg");
 require("dotenv").config();
+const pool = require("./db");
+
+const authRoutes = require("./routes/authRoutes");
+const ceoRoutes = require("./routes/ceoRoutes");
+const perusahaanRoutes = require("./routes/perusahaanRoutes");
+const proyekRoutes = require("./routes/proyekRoutes");
+const approvalRoutes = require("./routes/approvalRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-});
-
-// Endpoint tes koneksi & cek tabel perusahaan
+// Endpoint tes koneksi
 app.get("/api/health", async (req, res) => {
   try {
     const result = await pool.query(
@@ -27,6 +28,13 @@ app.get("/api/health", async (req, res) => {
     res.status(500).json({ status: "error", message: err.message });
   }
 });
+
+// Mount semua routes
+app.use("/api", authRoutes);
+app.use("/api/ceo", ceoRoutes);
+app.use("/api/perusahaan", perusahaanRoutes);
+app.use("/api/proyek", proyekRoutes);
+app.use("/api/approval", approvalRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
